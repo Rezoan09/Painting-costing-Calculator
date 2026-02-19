@@ -1,167 +1,332 @@
 <!doctype html>
 <html lang="en" class="h-full">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>"We Paint" Interior Paint Cost Calculator</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>We Paint - Interior Paint Cost Calculator</title>
+
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <script src="/_sdk/element_sdk.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+
   <style>
     * { font-family: 'DM Sans', sans-serif; }
-    .gradient-bg {
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-    }
-    .card-glass {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(10px);
-    }
-    .accent-gradient {
-      background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
-    }
-    .input-focus:focus {
-      box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2);
-    }
-    .result-glow {
-      box-shadow: 0 4px 30px rgba(233, 69, 96, 0.3);
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .animate-slide-up {
-      animation: slideUp 0.5s ease-out forwards;
-    }
-    .range-slider {
-      -webkit-appearance: none;
-      height: 8px;
-      border-radius: 4px;
-      background: #e5e7eb;
-    }
+    .gradient-bg { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); }
+    .card-glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+    .accent-gradient { background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%); }
+    .input-focus:focus { box-shadow: 0 0 0 3px rgba(233, 69, 96, 0.2); }
+    .result-glow { box-shadow: 0 4px 30px rgba(233, 69, 96, 0.3); }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
+    .range-slider { -webkit-appearance: none; height: 8px; border-radius: 4px; background: #e5e7eb; }
     .range-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
+      -webkit-appearance: none; width: 24px; height: 24px; border-radius: 50%;
       background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(233, 69, 96, 0.4);
+      cursor: pointer; box-shadow: 0 2px 10px rgba(233, 69, 96, 0.4);
     }
     .range-slider::-moz-range-thumb {
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
+      width: 24px; height: 24px; border-radius: 50%;
       background: linear-gradient(135deg, #e94560 0%, #ff6b6b 100%);
-      cursor: pointer;
-      border: none;
-      box-shadow: 0 2px 10px rgba(233, 69, 96, 0.4);
+      cursor: pointer; border: none; box-shadow: 0 2px 10px rgba(233, 69, 96, 0.4);
+    }
+    .brand-logo {
+      width: 86px;
+      height: 86px;
+      border-radius: 18px;
+      object-fit: cover;
+      background: rgba(255,255,255,0.9);
+      padding: 6px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     }
   </style>
+
   <style>body { box-sizing: border-box; }</style>
   <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
- </head>
- <body class="h-full">
+</head>
+
+<body class="h-full">
   <div id="app-wrapper" class="h-full w-full gradient-bg overflow-auto">
-   <div class="min-h-full w-full px-4 py-8 md:py-12">
-    <div class="max-w-2xl mx-auto"><!-- Header -->
-     <header class="text-center mb-8 animate-slide-up">
-      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl accent-gradient mb-4 shadow-lg">
-       <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-       </svg>
-      </div>
-      <h1 id="calculator-title" class="text-3xl md:text-4xl font-bold text-white mb-2">Paint Cost Calculator</h1>
-      <p id="company-name" class="text-gray-300 text-lg">Professional Painting Services</p>
-     </header><!-- Calculator Card -->
-     <div class="card-glass rounded-3xl shadow-2xl p-6 md:p-8 animate-slide-up" style="animation-delay: 0.1s"><!-- Room Dimensions -->
-      <section class="mb-8">
-       <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">1</span> Room Dimensions</h2>
-       <div class="grid grid-cols-2 gap-4 mb-4">
-        <div><label for="room-length" class="block text-sm font-medium text-gray-600 mb-2">Length (ft)</label> <input type="number" id="room-length" value="12" min="1" max="100" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+    <div class="min-h-full w-full px-4 py-8 md:py-12">
+      <div class="max-w-2xl mx-auto">
+
+        <!-- Header -->
+        <header class="text-center mb-8 animate-slide-up">
+          <div class="flex items-center justify-center mb-4">
+            <img
+              src="We-Paint-Logo.jpeg"
+              alt="We Paint Logo"
+              class="brand-logo"
+              onerror="this.style.display='none'; console.warn('Logo not found: place We-Paint-Logo.jpeg next to index.html');"
+            />
+          </div>
+
+          <h1 id="calculator-title" class="text-3xl md:text-4xl font-bold text-white mb-2">
+            We Paint - Cost Calculator
+          </h1>
+          <p id="company-name" class="text-gray-300 text-lg">We Paint</p>
+        </header>
+
+        <!-- Calculator Card -->
+        <div class="card-glass rounded-3xl shadow-2xl p-6 md:p-8 animate-slide-up" style="animation-delay: 0.1s">
+
+          <!-- Currency -->
+          <section class="mb-8">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">0</span>
+              Currency
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+              <div class="md:col-span-2">
+                <label for="currency" class="block text-sm font-medium text-gray-600 mb-2">Choose Currency</label>
+                <select id="currency"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium bg-white">
+                  <option value="BDT" selected>BDT (৳)</option>
+                  <option value="USD">USD ($)</option>
+                  <option value="EUR">EUR (€)</option>
+                  <option value="GBP">GBP (£)</option>
+                  <option value="INR">INR (₹)</option>
+                </select>
+              </div>
+
+              <div class="text-xs text-gray-500 md:text-right">
+                <div class="font-semibold text-gray-700">Rates</div>
+                <div>Approx. exchange rates</div>
+              </div>
+            </div>
+
+            <p class="text-xs text-gray-500 mt-3">
+              * Exchange rates are approximate. You can update them in the code anytime.
+            </p>
+          </section>
+
+          <!-- Room Dimensions -->
+          <section class="mb-8">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">1</span>
+              Room Dimensions
+            </h2>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="room-length" class="block text-sm font-medium text-gray-600 mb-2">Length (ft)</label>
+                <input type="number" id="room-length" value="12" min="1" max="100"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+              </div>
+              <div>
+                <label for="room-width" class="block text-sm font-medium text-gray-600 mb-2">Width (ft)</label>
+                <input type="number" id="room-width" value="10" min="1" max="100"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+              </div>
+            </div>
+
+            <div>
+              <label for="ceiling-height" class="block text-sm font-medium text-gray-600 mb-2">Ceiling Height (ft)</label>
+              <input type="number" id="ceiling-height" value="9" min="6" max="20" step="0.5"
+                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+            </div>
+          </section>
+
+          <!-- Doors & Windows -->
+          <section class="mb-8">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">1.5</span>
+              Doors & Windows
+            </h2>
+
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="doors" class="block text-sm font-medium text-gray-600 mb-2">Number of Doors</label>
+                <input type="number" id="doors" value="1" min="0" max="20"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+              </div>
+              <div>
+                <label for="windows" class="block text-sm font-medium text-gray-600 mb-2">Number of Windows</label>
+                <input type="number" id="windows" value="2" min="0" max="50"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label for="door-area" class="block text-sm font-medium text-gray-600 mb-2">Area per Door (sq ft)</label>
+                <input type="number" id="door-area" value="21" min="0" max="100" step="1"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+                <p class="text-xs text-gray-500 mt-2">Default: ~3ft × 7ft = 21 sq ft</p>
+              </div>
+              <div>
+                <label for="window-area" class="block text-sm font-medium text-gray-600 mb-2">Area per Window (sq ft)</label>
+                <input type="number" id="window-area" value="15" min="0" max="200" step="1"
+                  class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+                <p class="text-xs text-gray-500 mt-2">Default: ~3ft × 5ft = 15 sq ft</p>
+              </div>
+            </div>
+
+            <div class="mt-4 p-3 rounded-xl bg-gray-50 border border-gray-200">
+              <p class="text-sm text-gray-600">
+                We subtract door/window area from <span class="font-semibold text-gray-800">walls only</span>
+                (ceiling area is unchanged).
+              </p>
+            </div>
+          </section>
+
+          <!-- Paint Quality -->
+          <section class="mb-8">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">2</span>
+              Paint Quality
+            </h2>
+
+            <div class="grid grid-cols-3 gap-3">
+              <button type="button" data-quality="standard"
+                class="quality-btn px-4 py-4 rounded-xl border-2 border-gray-200 hover:border-pink-300 transition-all text-center group">
+                <div class="text-2xl mb-1">🎨</div>
+                <div class="font-semibold text-gray-800 text-sm">Standard</div>
+                <div class="text-xs text-gray-500">$35/gallon</div>
+              </button>
+
+              <button type="button" data-quality="premium"
+                class="quality-btn active px-4 py-4 rounded-xl border-2 border-pink-400 bg-pink-50 transition-all text-center group">
+                <div class="text-2xl mb-1">✨</div>
+                <div class="font-semibold text-gray-800 text-sm">Premium</div>
+                <div class="text-xs text-gray-500">$55/gallon</div>
+              </button>
+
+              <button type="button" data-quality="luxury"
+                class="quality-btn px-4 py-4 rounded-xl border-2 border-gray-200 hover:border-pink-300 transition-all text-center group">
+                <div class="text-2xl mb-1">💎</div>
+                <div class="font-semibold text-gray-800 text-sm">Luxury</div>
+                <div class="text-xs text-gray-500">$85/gallon</div>
+              </button>
+            </div>
+
+            <p class="text-xs text-gray-500 mt-3">
+              * Paint prices are defined in USD and converted to your selected currency in the results.
+            </p>
+          </section>
+
+          <!-- Number of Coats -->
+          <section class="mb-8">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">3</span>
+              Number of Coats
+            </h2>
+
+            <div class="flex items-center gap-4">
+              <input type="range" id="coats" min="1" max="3" value="2" class="range-slider flex-1">
+              <span id="coats-display" class="w-12 h-12 rounded-xl accent-gradient flex items-center justify-center text-white font-bold text-xl shadow-lg">2</span>
+            </div>
+
+            <div class="flex justify-between text-xs text-gray-500 mt-2 px-1">
+              <span>1 coat</span><span>2 coats</span><span>3 coats</span>
+            </div>
+          </section>
+
+          <!-- Additional Options -->
+          <section class="mb-8">
+            <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">4</span>
+              Additional Options
+            </h2>
+
+            <div class="space-y-3">
+              <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 hover:border-pink-300 cursor-pointer transition-all">
+                <input type="checkbox" id="include-ceiling" class="w-5 h-5 rounded accent-pink-500">
+                <span class="flex-1">
+                  <span class="font-medium text-gray-800">Include Ceiling</span>
+                  <span class="text-sm text-gray-500 block">Paint the ceiling too</span>
+                </span>
+              </label>
+
+              <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 hover:border-pink-300 cursor-pointer transition-all">
+                <input type="checkbox" id="include-primer" class="w-5 h-5 rounded accent-pink-500">
+                <span class="flex-1">
+                  <span class="font-medium text-gray-800">Primer Coat</span>
+                  <span class="text-sm text-gray-500 block">+$25/gallon for primer (base USD)</span>
+                </span>
+              </label>
+
+              <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 hover:border-pink-300 cursor-pointer transition-all">
+                <input type="checkbox" id="include-labor" checked class="w-5 h-5 rounded accent-pink-500">
+                <span class="flex-1">
+                  <span class="font-medium text-gray-800">Professional Labor</span>
+                  <span class="text-sm text-gray-500 block">$2.50/sq ft for labor (base USD)</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Calculate Button -->
+          <button type="button" id="calculate-btn"
+            class="w-full py-4 rounded-xl accent-gradient text-white font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all">
+            Calculate Estimate
+          </button>
         </div>
-        <div><label for="room-width" class="block text-sm font-medium text-gray-600 mb-2">Width (ft)</label> <input type="number" id="room-width" value="10" min="1" max="100" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
+
+        <!-- Results Card -->
+        <div id="results-card" class="hidden card-glass rounded-3xl shadow-2xl p-6 md:p-8 mt-6 result-glow animate-slide-up">
+          <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">📋 Cost Breakdown</h2>
+
+          <div class="space-y-4 mb-6">
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-600">Paintable Wall+Ceiling Area</span>
+              <span id="result-area" class="font-semibold text-gray-800">396 sq ft</span>
+            </div>
+
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-600">Openings Deducted (doors/windows)</span>
+              <span id="result-openings" class="font-semibold text-gray-800">51 sq ft</span>
+            </div>
+
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-600">Paint Required</span>
+              <span id="result-gallons" class="font-semibold text-gray-800">2.3 gallons</span>
+            </div>
+
+            <div class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-600">Paint Cost</span>
+              <span id="result-paint-cost" class="font-semibold text-gray-800">$126.50</span>
+            </div>
+
+            <div id="primer-row" class="hidden flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-600">Primer Cost</span>
+              <span id="result-primer-cost" class="font-semibold text-gray-800">$57.50</span>
+            </div>
+
+            <div id="labor-row" class="flex justify-between items-center py-3 border-b border-gray-200">
+              <span class="text-gray-600">Labor Cost</span>
+              <span id="result-labor-cost" class="font-semibold text-gray-800">$990.00</span>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-r from-pink-500 to-red-500 rounded-2xl p-6 text-center">
+            <p class="text-white/80 text-sm mb-1">Estimated Total</p>
+            <p id="result-total" class="text-4xl font-bold text-white">$1,116.50</p>
+            <p id="result-currency-note" class="text-white/80 text-xs mt-2">Currency: BDT (approx.)</p>
+          </div>
+
+          <p class="text-center text-gray-500 text-sm mt-4">
+            *Estimate only. Final price may vary based on wall condition and prep work.
+          </p>
         </div>
-       </div>
-       <div><label for="ceiling-height" class="block text-sm font-medium text-gray-600 mb-2">Ceiling Height (ft)</label> <input type="number" id="ceiling-height" value="9" min="6" max="20" step="0.5" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 input-focus focus:border-pink-400 outline-none transition-all text-gray-800 font-medium">
-       </div>
-      </section><!-- Paint Quality -->
-      <section class="mb-8">
-       <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">2</span> Paint Quality</h2>
-       <div class="grid grid-cols-3 gap-3"><button type="button" data-quality="standard" class="quality-btn px-4 py-4 rounded-xl border-2 border-gray-200 hover:border-pink-300 transition-all text-center group">
-         <div class="text-2xl mb-1">
-          🎨
-         </div>
-         <div class="font-semibold text-gray-800 text-sm">
-          Standard
-         </div>
-         <div class="text-xs text-gray-500">
-          $35/gallon
-         </div></button> <button type="button" data-quality="premium" class="quality-btn active px-4 py-4 rounded-xl border-2 border-pink-400 bg-pink-50 transition-all text-center group">
-         <div class="text-2xl mb-1">
-          ✨
-         </div>
-         <div class="font-semibold text-gray-800 text-sm">
-          Premium
-         </div>
-         <div class="text-xs text-gray-500">
-          $55/gallon
-         </div></button> <button type="button" data-quality="luxury" class="quality-btn px-4 py-4 rounded-xl border-2 border-gray-200 hover:border-pink-300 transition-all text-center group">
-         <div class="text-2xl mb-1">
-          💎
-         </div>
-         <div class="font-semibold text-gray-800 text-sm">
-          Luxury
-         </div>
-         <div class="text-xs text-gray-500">
-          $85/gallon
-         </div></button>
-       </div>
-      </section><!-- Number of Coats -->
-      <section class="mb-8">
-       <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">3</span> Number of Coats</h2>
-       <div class="flex items-center gap-4"><input type="range" id="coats" min="1" max="3" value="2" class="range-slider flex-1"> <span id="coats-display" class="w-12 h-12 rounded-xl accent-gradient flex items-center justify-center text-white font-bold text-xl shadow-lg">2</span>
-       </div>
-       <div class="flex justify-between text-xs text-gray-500 mt-2 px-1"><span>1 coat</span> <span>2 coats</span> <span>3 coats</span>
-       </div>
-      </section><!-- Additional Options -->
-      <section class="mb-8">
-       <h2 class="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"><span class="w-8 h-8 rounded-lg bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-600">4</span> Additional Options</h2>
-       <div class="space-y-3"><label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 hover:border-pink-300 cursor-pointer transition-all"> <input type="checkbox" id="include-ceiling" class="w-5 h-5 rounded accent-pink-500"> <span class="flex-1"> <span class="font-medium text-gray-800">Include Ceiling</span> <span class="text-sm text-gray-500 block">Paint the ceiling too</span> </span> </label> <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 hover:border-pink-300 cursor-pointer transition-all"> <input type="checkbox" id="include-primer" class="w-5 h-5 rounded accent-pink-500"> <span class="flex-1"> <span class="font-medium text-gray-800">Primer Coat</span> <span class="text-sm text-gray-500 block">+$25/gallon for primer</span> </span> </label> <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-200 hover:border-pink-300 cursor-pointer transition-all"> <input type="checkbox" id="include-labor" checked class="w-5 h-5 rounded accent-pink-500"> <span class="flex-1"> <span class="font-medium text-gray-800">Professional Labor</span> <span class="text-sm text-gray-500 block">$2.50/sq ft for labor</span> </span> </label>
-       </div>
-      </section><!-- Calculate Button --> <button type="button" id="calculate-btn" class="w-full py-4 rounded-xl accent-gradient text-white font-semibold text-lg shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all"> Calculate Estimate </button>
-     </div><!-- Results Card -->
-     <div id="results-card" class="hidden card-glass rounded-3xl shadow-2xl p-6 md:p-8 mt-6 result-glow animate-slide-up">
-      <h2 class="text-xl font-bold text-gray-800 mb-6 text-center">📋 Cost Breakdown</h2>
-      <div class="space-y-4 mb-6">
-       <div class="flex justify-between items-center py-3 border-b border-gray-200"><span class="text-gray-600">Wall Area</span> <span id="result-area" class="font-semibold text-gray-800">396 sq ft</span>
-       </div>
-       <div class="flex justify-between items-center py-3 border-b border-gray-200"><span class="text-gray-600">Paint Required</span> <span id="result-gallons" class="font-semibold text-gray-800">2.3 gallons</span>
-       </div>
-       <div class="flex justify-between items-center py-3 border-b border-gray-200"><span class="text-gray-600">Paint Cost</span> <span id="result-paint-cost" class="font-semibold text-gray-800">$126.50</span>
-       </div>
-       <div id="primer-row" class="hidden flex justify-between items-center py-3 border-b border-gray-200"><span class="text-gray-600">Primer Cost</span> <span id="result-primer-cost" class="font-semibold text-gray-800">$57.50</span>
-       </div>
-       <div id="labor-row" class="flex justify-between items-center py-3 border-b border-gray-200"><span class="text-gray-600">Labor Cost</span> <span id="result-labor-cost" class="font-semibold text-gray-800">$990.00</span>
-       </div>
+
+        <!-- Footer -->
+        <footer class="text-center mt-8 animate-slide-up" style="animation-delay: 0.2s">
+          <p id="contact-info" class="text-gray-400">Questions? Call us: +8801337320677</p>
+        </footer>
+
       </div>
-      <div class="bg-gradient-to-r from-pink-500 to-red-500 rounded-2xl p-6 text-center">
-       <p class="text-white/80 text-sm mb-1">Estimated Total</p>
-       <p id="result-total" class="text-4xl font-bold text-white">$1,116.50</p>
-      </div>
-      <p class="text-center text-gray-500 text-sm mt-4">*Estimate only. Final price may vary based on wall condition and prep work.</p>
-     </div><!-- Footer -->
-     <footer class="text-center mt-8 animate-slide-up" style="animation-delay: 0.2s">
-      <p id="contact-info" class="text-gray-400">Questions? Call us: +8801337320677</p>
-     </footer>
     </div>
-   </div>
   </div>
+
   <script>
     // Default configuration
     const defaultConfig = {
-      calculator_title: 'We Paint-Cost Calculator',
-      company_name: 'Professional Painting Services',
+      calculator_title: 'We Paint - Cost Calculator',
+      company_name: 'We Paint',
       contact_info: 'Questions? Call us: +8801337320677',
       primary_color: '#e94560',
       secondary_color: '#1a1a2e',
@@ -172,18 +337,54 @@
       font_size: 16
     };
 
-    // Paint pricing data
-    const paintPrices = {
-      standard: 35,
-      premium: 55,
-      luxury: 85
-    };
-
-    const primerPrice = 25;
-    const laborRate = 2.50;
+    // BASE PRICING (USD)
+    const paintPricesUSD = { standard: 35, premium: 55, luxury: 85 };
+    const primerPriceUSD = 25;
+    const laborRateUSD = 2.50;
     const sqFtPerGallon = 350;
 
+    // Exchange Rates (USD -> target). Update anytime.
+    // NOTE: These are approximate placeholders.
+    const fxUSDTo = {
+      USD: 1,
+      BDT: 110,  // 1 USD ≈ 110 BDT
+      EUR: 0.92, // 1 USD ≈ 0.92 EUR
+      GBP: 0.79, // 1 USD ≈ 0.79 GBP
+      INR: 83    // 1 USD ≈ 83 INR
+    };
+
+    // Currency locale formatting
+    const currencyFormat = {
+      USD: { locale: 'en-US', currency: 'USD' },
+      BDT: { locale: 'bn-BD', currency: 'BDT' },
+      EUR: { locale: 'de-DE', currency: 'EUR' },
+      GBP: { locale: 'en-GB', currency: 'GBP' },
+      INR: { locale: 'en-IN', currency: 'INR' }
+    };
+
     let selectedQuality = 'premium';
+
+    function getSelectedCurrency() {
+      return document.getElementById('currency').value || 'BDT';
+    }
+
+    function money(amountUSD) {
+      const cur = getSelectedCurrency();
+      const rate = fxUSDTo[cur] ?? 1;
+      const amount = amountUSD * rate;
+      const fmt = currencyFormat[cur] || currencyFormat.USD;
+
+      try {
+        return new Intl.NumberFormat(fmt.locale, {
+          style: 'currency',
+          currency: fmt.currency,
+          maximumFractionDigits: 2
+        }).format(amount);
+      } catch (e) {
+        // Fallback if browser lacks currency formatting
+        return `${cur} ${amount.toFixed(2)}`;
+      }
+    }
 
     // Initialize SDK
     if (window.elementSdk) {
@@ -193,42 +394,21 @@
           document.getElementById('calculator-title').textContent = config.calculator_title || defaultConfig.calculator_title;
           document.getElementById('company-name').textContent = config.company_name || defaultConfig.company_name;
           document.getElementById('contact-info').textContent = config.contact_info || defaultConfig.contact_info;
-          
+
           const fontFamily = config.font_family || defaultConfig.font_family;
           document.body.style.fontFamily = `${fontFamily}, sans-serif`;
         },
         mapToCapabilities: (config) => ({
           recolorables: [
-            {
-              get: () => config.secondary_color || defaultConfig.secondary_color,
-              set: (value) => window.elementSdk.setConfig({ secondary_color: value })
-            },
-            {
-              get: () => config.surface_color || defaultConfig.surface_color,
-              set: (value) => window.elementSdk.setConfig({ surface_color: value })
-            },
-            {
-              get: () => config.text_color || defaultConfig.text_color,
-              set: (value) => window.elementSdk.setConfig({ text_color: value })
-            },
-            {
-              get: () => config.primary_color || defaultConfig.primary_color,
-              set: (value) => window.elementSdk.setConfig({ primary_color: value })
-            },
-            {
-              get: () => config.accent_color || defaultConfig.accent_color,
-              set: (value) => window.elementSdk.setConfig({ accent_color: value })
-            }
+            { get: () => config.secondary_color || defaultConfig.secondary_color, set: (value) => window.elementSdk.setConfig({ secondary_color: value }) },
+            { get: () => config.surface_color || defaultConfig.surface_color, set: (value) => window.elementSdk.setConfig({ surface_color: value }) },
+            { get: () => config.text_color || defaultConfig.text_color, set: (value) => window.elementSdk.setConfig({ text_color: value }) },
+            { get: () => config.primary_color || defaultConfig.primary_color, set: (value) => window.elementSdk.setConfig({ primary_color: value }) },
+            { get: () => config.accent_color || defaultConfig.accent_color, set: (value) => window.elementSdk.setConfig({ accent_color: value }) }
           ],
           borderables: [],
-          fontEditable: {
-            get: () => config.font_family || defaultConfig.font_family,
-            set: (value) => window.elementSdk.setConfig({ font_family: value })
-          },
-          fontSizeable: {
-            get: () => config.font_size || defaultConfig.font_size,
-            set: (value) => window.elementSdk.setConfig({ font_size: value })
-          }
+          fontEditable: { get: () => config.font_family || defaultConfig.font_family, set: (value) => window.elementSdk.setConfig({ font_family: value }) },
+          fontSizeable: { get: () => config.font_size || defaultConfig.font_size, set: (value) => window.elementSdk.setConfig({ font_size: value }) }
         }),
         mapToEditPanelValues: (config) => new Map([
           ['calculator_title', config.calculator_title || defaultConfig.calculator_title],
@@ -248,6 +428,8 @@
         btn.classList.add('active', 'border-pink-400', 'bg-pink-50');
         btn.classList.remove('border-gray-200');
         selectedQuality = btn.dataset.quality;
+
+        if (!document.getElementById('results-card').classList.contains('hidden')) calculateEstimate();
       });
     });
 
@@ -256,49 +438,66 @@
     const coatsDisplay = document.getElementById('coats-display');
     coatsSlider.addEventListener('input', () => {
       coatsDisplay.textContent = coatsSlider.value;
+      if (!document.getElementById('results-card').classList.contains('hidden')) calculateEstimate();
+    });
+
+    // Currency change -> recalc results if visible
+    document.getElementById('currency').addEventListener('change', () => {
+      if (!document.getElementById('results-card').classList.contains('hidden')) calculateEstimate();
     });
 
     // Calculate function
     function calculateEstimate() {
       const length = parseFloat(document.getElementById('room-length').value) || 0;
-      const width = parseFloat(document.getElementById('room-width').value) || 0;
+      const width  = parseFloat(document.getElementById('room-width').value) || 0;
       const height = parseFloat(document.getElementById('ceiling-height').value) || 0;
+
       const coats = parseInt(coatsSlider.value);
       const includeCeiling = document.getElementById('include-ceiling').checked;
-      const includePrimer = document.getElementById('include-primer').checked;
-      const includeLabor = document.getElementById('include-labor').checked;
+      const includePrimer  = document.getElementById('include-primer').checked;
+      const includeLabor   = document.getElementById('include-labor').checked;
 
-      // Calculate wall area (2 * length * height + 2 * width * height)
-      let totalArea = 2 * (length + width) * height;
-      
-      // Add ceiling if selected
-      if (includeCeiling) {
-        totalArea += length * width;
-      }
+      const doors = Math.max(0, parseInt(document.getElementById('doors').value) || 0);
+      const windows = Math.max(0, parseInt(document.getElementById('windows').value) || 0);
+      const doorArea = Math.max(0, parseFloat(document.getElementById('door-area').value) || 0);
+      const windowArea = Math.max(0, parseFloat(document.getElementById('window-area').value) || 0);
 
-      // Subtract ~15% for doors/windows
-      const paintableArea = totalArea * 0.85;
+      // Wall area: 2*(L+W)*H
+      let wallArea = 2 * (length + width) * height;
 
-      // Calculate gallons needed
+      // Deduct openings from wall area only
+      const openingsArea = (doors * doorArea) + (windows * windowArea);
+      wallArea = Math.max(0, wallArea - openingsArea);
+
+      // Add ceiling if selected (ceiling is not reduced by openings)
+      let totalArea = wallArea;
+      if (includeCeiling) totalArea += (length * width);
+
+      // Paintable area factor (prep loss). Keep a small allowance for trims/imperfections:
+      const paintableArea = totalArea * 0.95;
+
+      // Gallons needed (rounded up to 0.1)
       const gallonsNeeded = (paintableArea * coats) / sqFtPerGallon;
       const gallonsRounded = Math.ceil(gallonsNeeded * 10) / 10;
 
-      // Calculate costs
-      const paintCost = gallonsRounded * paintPrices[selectedQuality];
-      const primerCost = includePrimer ? gallonsRounded * primerPrice : 0;
-      const laborCost = includeLabor ? paintableArea * laborRate : 0;
-      const totalCost = paintCost + primerCost + laborCost;
+      // Costs in USD (base)
+      const paintCostUSD  = gallonsRounded * paintPricesUSD[selectedQuality];
+      const primerCostUSD = includePrimer ? gallonsRounded * primerPriceUSD : 0;
+      const laborCostUSD  = includeLabor ? paintableArea * laborRateUSD : 0;
+      const totalCostUSD  = paintCostUSD + primerCostUSD + laborCostUSD;
 
-      // Update results
+      // Update UI
       document.getElementById('result-area').textContent = `${Math.round(paintableArea)} sq ft`;
+      document.getElementById('result-openings').textContent = `${Math.round(openingsArea)} sq ft`;
       document.getElementById('result-gallons').textContent = `${gallonsRounded} gallons`;
-      document.getElementById('result-paint-cost').textContent = `$${paintCost.toFixed(2)}`;
-      
+
+      document.getElementById('result-paint-cost').textContent = money(paintCostUSD);
+
       const primerRow = document.getElementById('primer-row');
       if (includePrimer) {
         primerRow.classList.remove('hidden');
         primerRow.classList.add('flex');
-        document.getElementById('result-primer-cost').textContent = `$${primerCost.toFixed(2)}`;
+        document.getElementById('result-primer-cost').textContent = money(primerCostUSD);
       } else {
         primerRow.classList.add('hidden');
         primerRow.classList.remove('flex');
@@ -308,13 +507,14 @@
       if (includeLabor) {
         laborRow.classList.remove('hidden');
         laborRow.classList.add('flex');
-        document.getElementById('result-labor-cost').textContent = `$${laborCost.toFixed(2)}`;
+        document.getElementById('result-labor-cost').textContent = money(laborCostUSD);
       } else {
         laborRow.classList.add('hidden');
         laborRow.classList.remove('flex');
       }
 
-      document.getElementById('result-total').textContent = `$${totalCost.toFixed(2)}`;
+      document.getElementById('result-total').textContent = money(totalCostUSD);
+      document.getElementById('result-currency-note').textContent = `Currency: ${getSelectedCurrency()} (approx.)`;
 
       // Show results card
       const resultsCard = document.getElementById('results-card');
@@ -325,15 +525,18 @@
     // Attach calculate event
     document.getElementById('calculate-btn').addEventListener('click', calculateEstimate);
 
-    // Auto-calculate on input changes
-    const inputs = ['room-length', 'room-width', 'ceiling-height', 'coats', 'include-ceiling', 'include-primer', 'include-labor'];
+    // Auto-calculate on input changes (if results visible)
+    const inputs = [
+      'room-length','room-width','ceiling-height',
+      'doors','windows','door-area','window-area',
+      'include-ceiling','include-primer','include-labor'
+    ];
+
     inputs.forEach(id => {
       document.getElementById(id).addEventListener('change', () => {
-        if (!document.getElementById('results-card').classList.contains('hidden')) {
-          calculateEstimate();
-        }
+        if (!document.getElementById('results-card').classList.contains('hidden')) calculateEstimate();
       });
     });
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d06b9f43184d6f5',t:'MTc3MTUxNDE5Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</body>
 </html>
